@@ -16,3 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('/category',App\Http\Controllers\CategoryController::class);
+
+Route::get('/category-edit/{id}', function ($id) {
+    return view('category.edit',['id'=>$id]);
+});
+Route::post('/update', [App\Http\Controllers\CategoryController::class,'updateCustom']);
