@@ -11,36 +11,33 @@
     </head>
     <body>
         @include('layout.header')
-        <div class="container col-md-6">
-        <form action="{{route('category.store')}}" method="POST">
-            @csrf
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" required name="cat_name" placeholder="Create Category" >
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="submit">Add</button>
-                </div>
-            </div>
-        </form>
-            
+        <div class="container col-md-6">    
+            <a href="{{route('post.create')}}"><button class="btn btn-secondary">Create New</button></a>
             <table class="table ">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
                         <th scope="col">Category</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($categories as $category)
+                    @foreach($posts as $post)
                     <tr>
                         <th scope="row">{{$loop->index+1}}</th>
-                        <td>{{$category->cat_name}}</td>
+                        <td>{{$post->product_name}}</td>
+                        <td>{{$post->quantity}}</td>
+                        <td>{{$post->price}}</td>
+                        <td>{{$post->categories->cat_name}}</td>
                         <td>
                             <div class="row">
                                 <!--Edit Button-->
-                                <a href="/category-edit/{{$category->id}}/{{$category->cat_name}}"><button class="btn btn-warning col-md">Edit</button></a>
+                                <a href=""><button class="btn btn-warning col-md">Edit</button></a>
                                 <!--Delete Button-->
-                                <form action="/category/{{$category->id}}" method="POST">
+                                <form action="/post/{{$post->id}}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger col-md">Delete</button>
@@ -51,6 +48,12 @@
                     @endforeach
                 </tbody>
             </table>
+            {{$posts->links()}}
         </div>
+        <style>
+            .w-5{
+                display:none;
+            }
+        </style>
     </body>
 </html>

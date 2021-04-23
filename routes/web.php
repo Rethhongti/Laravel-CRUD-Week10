@@ -19,7 +19,12 @@ Route::get('/', function () {
 
 Route::resource('/category',App\Http\Controllers\CategoryController::class);
 
-Route::get('/category-edit/{id}', function ($id) {
-    return view('category.edit',['id'=>$id]);
+Route::get('/category-edit/{id}/{cat_name}', function ($id,$cat_name) {
+    return view('category.edit',['id'=>$id,'cat_name'=>$cat_name]);
 });
 Route::post('/update', [App\Http\Controllers\CategoryController::class,'updateCustom']);
+Route::resource('/post',App\Http\Controllers\ProductController::class);
+
+Route::post('/post-edit', function (){
+    return view('post.create',['is_edit'=>true]);
+});

@@ -12,12 +12,12 @@
     <body>
         
         <div class="container">
-            <h3>Edit Category {{$id}}</h3>
+            <h3>Edit Category </h3>
             <form action="/update" method="POST">
                 @csrf
                 <div class="input-group mb-3">
                 <input type="hidden" class="form-control" value="{{$id}}" name="id">
-                    <input type="text" class="form-control" placeholder="Edit Category" name="cat_name">
+                    <input type="text" class="form-control" value="{{$cat_name}}" placeholder="Edit Category" name="cat_name">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="submit">Save Change</button>
                     </div>
