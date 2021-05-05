@@ -50,7 +50,9 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::find($id);
+        $categories = Categories::get();
+        return view('post.edit',['product'=>$product,'categories'=>$categories]);
     }
 
     /**
@@ -86,6 +88,17 @@ class ProductController extends Controller
     {
         $post = Product::findOrFail($id);
         $post->delete();
+        return redirect(route('post.index'));
+    }
+
+    public function productUpdate(Request $request){
+        $product = Product::find($request->id);
+        $product->product_name = $request->product_name;
+        $product->quantity = $request->quantity;
+        $product->price = $request->price;
+        $product->categories_id = $request->categories_id;
+
+        $product->save();
         return redirect(route('post.index'));
     }
 }

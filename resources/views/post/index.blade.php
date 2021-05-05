@@ -35,7 +35,7 @@
                         <td>
                             <div class="row">
                                 <!--Edit Button-->
-                                <a href=""><button class="btn btn-warning col-md">Edit</button></a>
+                                <a href="/product-edit/{{$post->id}}"><button class="btn btn-warning col-md">Edit</button></a>
                                 <!--Delete Button-->
                                 <form action="/post/{{$post->id}}" method="POST">
                                     @csrf
@@ -50,10 +50,5 @@
             </table>
             {{$posts->links()}}
         </div>
-        <style>
-            .w-5{
-                display:none;
-            }
-        </style>
     </body>
 </html>

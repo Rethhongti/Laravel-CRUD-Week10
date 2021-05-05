@@ -28,3 +28,6 @@ Route::resource('/post',App\Http\Controllers\ProductController::class);
 Route::post('/post-edit', function (){
     return view('post.create',['is_edit'=>true]);
 });
+
+Route::post('/updateProduct',[App\Http\Controllers\ProductController::class,'productUpdate']);
+Route::get('/product-edit/{id}',[App\Http\Controllers\ProductController::class,'show']);
