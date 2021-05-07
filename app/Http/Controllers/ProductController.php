@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Categories;
@@ -38,7 +39,9 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        Product::create($request->all());
+        $product = $request->all();
+        $product['user_id'] = Auth::id();
+        Product::create($product);
         return redirect(route('post.index'));
     }
 
@@ -51,6 +54,9 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::find($id);
+        if(Auth::user()->cannot('update',$product)){
+            abort(403);
+        }
         $categories = Categories::get();
         return view('post.edit',['product'=>$product,'categories'=>$categories]);
     }
@@ -87,12 +93,19 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $post = Product::findOrFail($id);
+        if(Auth::user()->cannot('delete',$post)){
+            abort(403);
+        }
+        
         $post->delete();
         return redirect(route('post.index'));
     }
 
     public function productUpdate(Request $request){
         $product = Product::find($request->id);
+        if(Auth::user()->cannot('update',$product)){
+            abort(403);
+        }
         $product->product_name = $request->product_name;
         $product->quantity = $request->quantity;
         $product->price = $request->price;

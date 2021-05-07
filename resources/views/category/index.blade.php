@@ -12,22 +12,25 @@
     <body>
         @include('layout.header')
         <div class="container col-md-6">
-        <form action="{{route('category.store')}}" method="POST">
-            @csrf
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" required name="cat_name" placeholder="Create Category" >
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="submit">Add</button>
+        @can('crud-category')
+            <form action="{{route('category.store')}}" method="POST">
+                @csrf
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" required name="cat_name" placeholder="Create Category" >
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Add</button>
+                    </div>
                 </div>
-            </div>
-        </form>
-            
+            </form>
+        @endcan  
             <table class="table ">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Category</th>
-                        <th scope="col">Action</th>
+                        @can('crud-category')
+                            <th scope="col">Action</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody>
@@ -35,18 +38,20 @@
                     <tr>
                         <th scope="row">{{$loop->index+1}}</th>
                         <td>{{$category->cat_name}}</td>
-                        <td>
-                            <div class="row">
-                                <!--Edit Button-->
-                                <a href="/category-edit/{{$category->id}}/{{$category->cat_name}}"><button class="btn btn-warning col-md">Edit</button></a>
-                                <!--Delete Button-->
-                                <form action="/category/{{$category->id}}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger col-md">Delete</button>
-                                </form>
-                            </div>
-                        </td>
+                        @can('crud-category')
+                            <td>
+                                <div class="row">
+                                    <!--Edit Button-->
+                                    <a href="/category-edit/{{$category->id}}/{{$category->cat_name}}"><button class="btn btn-warning col-md">Edit</button></a>
+                                    <!--Delete Button-->
+                                    <form action="/category/{{$category->id}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger col-md">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

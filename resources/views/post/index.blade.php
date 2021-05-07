@@ -21,6 +21,7 @@
                         <th scope="col">Quantity</th>
                         <th scope="col">Price</th>
                         <th scope="col">Category</th>
+                        <th scope="col">Creator</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -32,16 +33,21 @@
                         <td>{{$post->quantity}}</td>
                         <td>{{$post->price}}</td>
                         <td>{{$post->categories->cat_name}}</td>
+                        <td>{{$post->user->name}}</td>
                         <td>
                             <div class="row">
                                 <!--Edit Button-->
-                                <a href="/product-edit/{{$post->id}}"><button class="btn btn-warning col-md">Edit</button></a>
+                                @can('update',$post)
+                                    <a href="/product-edit/{{$post->id}}"><button class="btn btn-warning col-md">Edit</button></a>
+                                @endcan
                                 <!--Delete Button-->
-                                <form action="/post/{{$post->id}}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger col-md">Delete</button>
-                                </form>
+                                @can('update',$post)
+                                    <form action="/post/{{$post->id}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger col-md">Delete</button>
+                                    </form>
+                                @endcan
                             </div>
                         </td>
                     </tr>
